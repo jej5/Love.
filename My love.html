@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, Youssef!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-text: #374151;
+      --color-subtext: #6b7280;
+      --color-bg: #ffffff;
+      --heart-color: #ef4444;
+      --max-width: 720px;
+      --button-bg: #111827;
+      --button-color: #ffffff;
+      --button-hover-bg: #2563eb;
+      --card-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      --transition: 0.3s ease;
+    }
+
+    /* Global resets */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0; padding: 0;
+      background: var(--color-bg);
+      font-family: 'Poppins', sans-serif;
+      color: var(--color-text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      position: relative;
+    }
+    main {
+      max-width: var(--max-width);
+      background: white;
+      box-shadow: var(--card-shadow);
+      border-radius: 0.75rem;
+      padding: 3rem 2.5rem;
+      user-select: none;
+      position: relative;
+      z-index: 10;
+    }
+    h1 {
+      font-size: 3.75rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: #111827;
+      line-height: 1.1;
+    }
+    p {
+      font-weight: 500;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+      color: var(--color-subtext);
+    }
+    p strong {
+      color: var(--color-text);
+    }
+
+    /* Buttons container */
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      z-index: 11;
+      position: relative;
+    }
+
+    button {
+      background: var(--button-bg);
+      color: var(--button-color);
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: background-color var(--transition), transform var(--transition);
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 170px;
+    }
+    button:hover,
+    button:focus {
+      background: var(--button-hover-bg);
+      outline: none;
+      transform: scale(1.05);
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+
+    /* Confetti container */
+    #confetti-container {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: visible;
+      z-index: 9999;
+    }
+
+    /* Heart confetti styling */
+    .heart-confetti {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background-color: var(--heart-color);
+      transform-origin: center center;
+      animation-timing-function: cubic-bezier(0.4,0,0.2,1);
+      user-select: none;
+    }
+    /* CSS heart shape */
+    .heart-confetti::before,
+    .heart-confetti::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background-color: var(--heart-color);
+      border-radius: 50%;
+      top: 0;
+      left: 0;
+    }
+    .heart-confetti::before {
+      top: -9px;
+      left: 0;
+    }
+    .heart-confetti::after {
+      top: 0;
+      left: 9px;
+    }
+
+    /* Heart fall animation */
+    @keyframes heart-fall {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg) scale(0.6);
+        opacity: 0;
+      }
+    }
+
+    /* I Love U rain container */
+    #ilu-container {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: visible;
+      z-index: 9998;
+      font-weight: 600;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      color: var(--color-subtext);
+      user-select: none;
+    }
+
+    /* I Love U text confetti styling */
+    .ilu-text {
+      position: absolute;
+      white-space: nowrap;
+      opacity: 0.75;
+      animation-timing-function: ease-in-out;
+      transform-origin: center;
+      pointer-events: none;
+    }
+
+    @keyframes ilu-fall {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 0.75;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg) scale(0.7);
+        opacity: 0;
+      }
+    }
+
+    /* Letter card styling */
+    #letter-card {
+      max-width: 500px;
+      margin: 2rem auto 0;
+      background: #f9fafb;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      border-radius: 0.75rem;
+      padding: 2rem 2.5rem;
+      color: var(--color-text);
+      font-weight: 500;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      user-select: text;
+      display: none;
+      position: relative;
+      transition: opacity 0.4s ease;
+      z-index: 11;
+    }
+
+    /* Show letter with fade */
+    #letter-card.show {
+      display: block;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <main role="main" aria-label="Birthday message for Youssef">
+    <h1>🎉 Happy Birthday, Youssef! 🎂</h1>
+    <p>I love you soooo much that I can not even explain🥰</p>
+    <p>Thank you for being always with me, even If I am mad u are always there ahahaha.</p>
+    <p> You are really amazing and the best guy that I have ever meet. 💫</p>
+    <p>With all my love,</p>
+    <p><strong>Your special someone 💌</strong></p>
+
+    <div class="buttons" role="region" aria-label="Interactive controls">
+      <button id="confetti-btn" type="button" aria-label="Toggle heart confetti">🎊 Show Confetti</button>
+      <button id="letter-btn" type="button" aria-expanded="false" aria-controls="letter-card">✉️ Open Letter</button>
+      <button id="ilu-btn" type="button" aria-label="Toggle I love you rain">❤️ I Love U</button>
+    </div>
+
+    <section id="letter-card" aria-live="polite" tabindex="-1" aria-label="Special message letter">
+      <p>Dear Husband,</p>
+      <p>On this special day I want you to know how much I love you and how happy (HORNY )you make me . TE AMOOO.</p>
+      <p>Happy birthday, my love! ❤️</p>
+      <p>نحبك، إنت حب حياتي 💌</p>
+    </section>
+  </main>
+
+  <div id="confetti-container" aria-hidden="true"></div>
+  <div id="ilu-container" aria-hidden="true"></div>
+
+  <script>
+    (() => {
+      const confettiContainer = document.getElementById('confetti-container');
+      const iluContainer = document.getElementById('ilu-container');
+      const heartSize = 18;
+      let confettiInterval = null;
+      let iluInterval = null;
+
+      const confettiBtn = document.getElementById('confetti-btn');
+      const letterBtn = document.getElementById('letter-btn');
+      const iluBtn = document.getElementById('ilu-btn');
+      const letterCard = document.getElementById('letter-card');
+
+      // Create a single heart confetti and animate
+      function createHeartConfetti() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart-confetti');
+
+        const startX = Math.random() * (window.innerWidth - heartSize);
+        const duration = 4000 + Math.random() * 3000;
+
+        heart.style.left = `${startX}px`;
+        heart.style.top = `-30px`;
+        heart.style.animation = `heart-fall ${duration}ms linear forwards`;
+        heart.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+        confettiContainer.appendChild(heart);
+        setTimeout(() => {
+          if (confettiContainer.contains(heart)) {
+            confettiContainer.removeChild(heart);
+          }
+        }, duration);
+      }
+
+      // Create a single "I love U" text falling gently
+      function createIluText() {
+        const ilu = document.createElement('div');
+        ilu.classList.add('ilu-text');
+        ilu.textContent = 'I love U';
+
+        const startX = Math.random() * (window.innerWidth - 70);
+        const duration = 6000 + Math.random() * 4000;
+
+        ilu.style.left = `${startX}px`;
+        ilu.style.top = `-30px`;
+        ilu.style.animation = `ilu-fall ${duration}ms ease-in-out forwards`;
+        ilu.style.transform = `rotate(${(Math.random() - 0.5) * 45}deg) scale(${0.8 + Math.random() * 0.4})`;
+        ilu.style.opacity = '0.75';
+
+        iluContainer.appendChild(ilu);
+        setTimeout(() => {
+          if (iluContainer.contains(ilu)) {
+            iluContainer.removeChild(ilu);
+          }
+        }, duration);
+      }
+
+      // Toggle confetti animation
+      confettiBtn.addEventListener('click', () => {
+        if (confettiInterval) {
+          clearInterval(confettiInterval);
+          confettiInterval = null;
+          confettiBtn.textContent = 'Confetti';
+          confettiBtn.setAttribute('aria-label', 'Show heart confetti');
+        } else {
+          confettiInterval = setInterval(() => {
+            createHeartConfetti();
+          }, 250);
+          confettiBtn.textContent = 'I LOVE U';
+          confettiBtn.setAttribute('aria-label', 'Pause heart confetti');
+        }
+      });
+
+      // Toggle letter card
+      letterBtn.addEventListener('click', () => {
+        const isOpen = letterCard.classList.toggle('show');
+        letterBtn.setAttribute('aria-expanded', isOpen.toString());
+        if (isOpen) {
+          letterCard.focus();
+        }
+      });
+
+      // Accessibility: Escape closes letter card
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && letterCard.classList.contains('show')) {
+          letterCard.classList.remove('show');
+          letterBtn.setAttribute('aria-expanded', 'false');
+          letterBtn.focus();
+        }
+      });
+
+      // Toggle I Love U rain animation
+      iluBtn.addEventListener('click', () => {
+        if (iluInterval) {
+          clearInterval(iluInterval);
+          iluInterval = null;
+          iluBtn.textContent = '❤️ I Love U';
+          iluBtn.setAttribute('aria-label', 'Show I love you rain');
+        } else {
+          iluInterval = setInterval(() => {
+            createIluText();
+          }, 350);
+          iluBtn.textContent = 'I LOVE U';
+          iluBtn.setAttribute('aria-label', 'Pause I love you rain');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
